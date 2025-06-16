@@ -8,7 +8,20 @@
 <body>
 
     <div class="app_container">
-        <canvas class="app_p5js-canvas"></canvas>
+        <div class="gradient-bg" id="gradient-bg">
+            <svg xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <filter id="goo">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+                        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -9"
+                            result="goo" />
+                        <feBlend in="SourceGraphic" in2="goo" />
+                    </filter>
+                </defs>
+            </svg>
+            
+            <!-- dynamic blobs go here -->
+        </div>
 
         <div class="app_feedback">
             <div class="app_camera">
@@ -21,10 +34,6 @@
             <div class="app_position_box" id="user_distance"></div>
         </div>
     </div>
-
-    <!-- Load P5JS -->
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.7/lib/p5.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.7/lib/addons/p5.sound.min.js"></script>
     <!-- Load Tensor Flow -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter"></script>
@@ -41,11 +50,7 @@
     <!-- Your tracking logic (exposes poses to sketch) -->
     <script src="./js/app.js"></script>
 
-    <!-- Load particle effect classes -->
-    <script src="./js/particle.js"></script>
-    <script src="./js/emitter.js"></script>
-
-    <!-- Load p5-powered orb rendering -->
+    <!-- Load orb rendering -->
     <script src="./js/sketch.js"></script>
 </body>
 

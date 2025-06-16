@@ -6,6 +6,8 @@ function createBlob(id) {
   const gradient = document.createElement('div');
   gradient.className = 'gradients-container';
   gradient.id = `blob-${id}`;
+  gradient.style.zIndex = id;
+  
 
   // Generate random opacities for each gradient
   const alphas = Array.from({ length: 6 }, () => Math.random().toFixed(2)); // ["0.73", "0.12", ..., "0.89"]
@@ -66,9 +68,8 @@ function updateBlobPositions() {
       const stretchY = 1 + Math.min(Math.abs(dy) / 50, 0.5);
 
       blob.gradient.style.transform = `
-        translate(${2 * blob.x}px, ${2 * blob.y}px)
-        scale(${stretchX}, ${stretchY})
-      `;
+      translate(${4.5* blob.x - 650}px, ${4*blob.y}px)
+      scale(${stretchX}, ${stretchY})`;
     }
   });
 }

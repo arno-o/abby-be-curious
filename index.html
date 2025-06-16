@@ -7,7 +7,24 @@
 
 <body>
 
-    <div class="app_container">
+    <div class="app__container">
+        <div class="app__info">
+            <h1 class="visually-hidden">Abby You - Interactive Screen</h1>
+            <h2 class="story__title"></h2>
+            <div class="bottom-section">
+                <div class="abby__logo">
+                    <img src="assets/svg/abby-identity.svg" width="150" alt="Abby Identity Logo">
+                </div>
+                <div class="abby__scan">
+                    <p class="scan__text">
+                        Start your journey in the Abby You app!
+                    </p>
+                    <img class="scan__qr" id="QRcode"
+                        src="https://quickchart.io/qr?text=https://abby-app.netlify.app&size=100&margin=1&format=svg&dark=FFFF&light=0000"
+                        alt="QR Code to download the abby app and save your first identity">
+                </div>
+            </div>
+        </div>
         <div class="gradient-bg" id="gradient-bg">
             <svg xmlns="http://www.w3.org/2000/svg">
                 <defs>
@@ -19,13 +36,11 @@
                     </filter>
                 </defs>
             </svg>
-            
             <!-- dynamic blobs go here -->
         </div>
-
-        <div class="app_feedback visually-hidden">
+        <div class="app__feedback visually-hidden">
             <div class="app_camera">
-                <canvas id="canvas"></canvas> 
+                <canvas id="canvas"></canvas>
                 <video id="video" style="display:none">
                     <source src="">
                 </video>
@@ -34,6 +49,7 @@
             <div class="app_position_box" id="user_distance"></div>
         </div>
     </div>
+
     <!-- Load Tensor Flow -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter"></script>
@@ -44,11 +60,14 @@
     <!-- Load scatter-gl.js -->
     <script src="https://cdn.jsdelivr.net/npm/scatter-gl@0.0.13/lib/scatter-gl.min.js"></script>
 
-    <!-- Your tracking system -->
+    <!-- Tracking system -->
     <script src="./js/tracker.js"></script>
 
-    <!-- Your tracking logic (exposes poses to sketch) -->
+    <!-- Tracking logic (exposes poses to sketch) -->
     <script src="./js/app.js"></script>
+
+    <!-- load GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
     <!-- Load orb rendering -->
     <script src="./js/sketch.js"></script>

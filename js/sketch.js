@@ -1,6 +1,16 @@
 const blobs = {};
 const abbyBlobs = [];
-const abbyCounter = 4;
+const abbyCounter = 8;
+
+const titles = [
+  "Who do you think you are?", 
+  "You don’t have to figure it out alone.", 
+  "At Abby, people shape their identity together.", 
+  "These other shapes? <br> That’s the Abby community.", 
+  "So... What identity are you becoming?"
+];
+
+let currentTitleIndex = 0;
 
 function createBlob(id) {
   const gradient = document.createElement('div');
@@ -68,7 +78,7 @@ function updateBlobPositions() {
       const stretchY = 1 + Math.min(Math.abs(dy) / 50, 0.5);
 
       blob.gradient.style.transform = `
-      translate(${4.5* blob.x - 650}px, ${4*blob.y}px)
+      translate(${4.5* blob.x - 650}px, ${4*blob.y - 300}px)
       scale(${stretchX}, ${stretchY})`;
     }
   });
@@ -143,6 +153,13 @@ function initAbbyBlobs() {
   }
 }
 
+function changeTitle() {
+  const $title = document.querySelector('.story__title');
+
+  $title.innerHTML = titles[currentTitleIndex];
+  currentTitleIndex = (currentTitleIndex + 1) % titles.length;
+
+}
 
 function loop() {
   updateBlobPositions();
@@ -153,6 +170,7 @@ function loop() {
 function setup () {
   initAbbyBlobs();
   loop();
+  setInterval(changeTitle, 6000);
 }
 
 setup();

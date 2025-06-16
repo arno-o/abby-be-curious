@@ -69,18 +69,20 @@ body {
   height:92vh;
   flex-direction: column;
   justify-content: space-between;
+  align-items: space-between;
   z-index: 100;
 }
 
 .story__title{
   font-family: GT-Walsheim-Bold, helvetica, sans-serif;
-  width: 100%;
   text-align: center;
+  align-self: center;
   font-size: 3rem;
   margin-top: 2rem;
 }
 
 .bottom-section{
+
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -89,13 +91,14 @@ body {
 
 .abby__scan {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  gap: 1rem;
   align-items: center;
 }
 
 .scan__text {
   max-width: 16ch;
-  text-align: center;
+  text-align: right;
   font-size: 1.125rem;
 }
 

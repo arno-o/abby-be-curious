@@ -1,23 +1,30 @@
+gsap.registerPlugin(SplitText)
+
 const blobs = {};
 const abbyBlobs = [];
 const abbyCounter = 8;
 
 const titles = [
-  "Who do you think you are?", 
-  "You don’t have to figure it out alone.", 
-  "At Abby, people shape their identity together.", 
-  "These other shapes? <br> That’s the Abby community.", 
-  "So... What identity are you becoming?"
+  "Who do you think you are?",
+  "You don’t have to figure <br> it out alone.",
+  "At Abby, people shape their <br>identity together.",
+  "These other shapes? <br> That’s the Abby community.",
+  "So... What identity are <br> you becoming?",
+  "",
+  "",
 ];
 
 let currentTitleIndex = 0;
+let titleInterval;
+let startTimer = 0;
+let hasStartedTitles = false;
 
 function createBlob(id) {
   const gradient = document.createElement('div');
   gradient.className = 'gradients-container';
   gradient.id = `blob-${id}`;
   gradient.style.zIndex = id;
-  
+
 
   // Generate random opacities for each gradient
   const alphas = Array.from({ length: 6 }, () => Math.random().toFixed(2)); // ["0.73", "0.12", ..., "0.89"]
@@ -78,7 +85,7 @@ function updateBlobPositions() {
       const stretchY = 1 + Math.min(Math.abs(dy) / 50, 0.5);
 
       blob.gradient.style.transform = `
-      translate(${4.5* blob.x - 650}px, ${4*blob.y - 300}px)
+      translate(${4.5 * blob.x - 650}px, ${4 * blob.y - 300}px)
       scale(${stretchX}, ${stretchY})`;
     }
   });
@@ -153,24 +160,73 @@ function initAbbyBlobs() {
   }
 }
 
+function startTitles() {
+  const poses = typeof getLatestPoses === 'function' ? getLatestPoses() : [];
+
+  if(poses.length > 0) {
+    startTimer += 1;
+    console.log('startTimer', startTimer);
+    if (startTimer > 80 && !hasStartedTitles) {
+      hasStartedTitles = true;
+      changeTitle();
+      titleInterval = setInterval(changeTitle, 5500);
+    }
+  }
+}
+
 function changeTitle() {
   const $title = document.querySelector('.story__title');
 
-  $title.innerHTML = titles[currentTitleIndex];
-  currentTitleIndex = (currentTitleIndex + 1) % titles.length;
+  // fade out
+  gsap.to($title, {
+    opacity: 0,
+    duration: 1,
+    ease: "power2.in",
+    onComplete: () => {
+      $title.innerHTML = titles[currentTitleIndex];
 
+      const split = new SplitText($title, { type: "chars" });
+
+      // fade in
+      gsap.fromTo($title, {
+        opacity: 0
+      }, {
+        opacity: 1,
+        duration: 1,
+        ease: "power2.out"
+      });
+
+      // Entry animation (characters)
+      gsap.from(split.chars, {
+        duration: 0.2,
+        autoAlpha: 0,
+        stagger: 0.07,
+        ease: "power2.out"
+      });
+
+      currentTitleIndex = (currentTitleIndex + 1) % titles.length;
+
+      if (currentTitleIndex == titles.length - 1) {
+        startTimer = 0;
+        hasStartedTitles = false;
+        clearInterval(titleInterval);
+        currentTitleIndex = 0;
+      }
+    }
+  });
 }
+
 
 function loop() {
   updateBlobPositions();
   updateAbbyBlobs();
+  startTitles();
   requestAnimationFrame(loop);
 }
 
-function setup () {
+function setup() {
   initAbbyBlobs();
   loop();
-  setInterval(changeTitle, 6000);
 }
 
 setup();
